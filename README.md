@@ -21,13 +21,18 @@ Ce projet implémente un solveur de programmation linéaire (PL) permettant de :
 
 ```
 Programmation_lineair/
-├── app.py              # Interface Streamlit
-├── simplexe.py         # Algorithme du Simplexe avec tableaux
-├── solver.py           # Solveur rapide (scipy)
-├── models.py           # Classes ProblemePL et Solution
-├── examples.py         # Exemples en ligne de commande
-├── main.py             # Menu interactif console
-└── requirements.txt    # Dépendances
+├── src/                    # Code source principal
+│   ├── __init__.py
+│   ├── models.py           # Classes ProblemePL et Solution
+│   ├── solver.py           # Solveur rapide (scipy)
+│   └── simplexe.py         # Algorithme du Simplexe avec tableaux
+├── examples/               # Exemples et démos
+│   ├── examples.py         # Exemples en ligne de commande
+│   └── main.py             # Menu interactif console
+├── app.py                  # Interface Streamlit
+├── requirements.txt        # Dépendances
+├── .gitignore
+└── README.md
 ```
 
 ## Installation
@@ -47,13 +52,13 @@ streamlit run app.py
 ### Ligne de commande
 
 ```bash
-python main.py
+python examples/main.py
 ```
 
 ### Exemple du cours
 
 ```python
-from simplexe import SimplexeSolveur
+from src.simplexe import SimplexeSolveur
 
 # Max Z = 1200x1 + 1000x2
 # 3x1 + 4x2 <= 160

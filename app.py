@@ -10,9 +10,9 @@ import numpy as np
 import plotly.graph_objects as go
 import plotly.express as px
 import pandas as pd
-from models import ProblemePL, Solution
-from solver import SolveurPL
-from simplexe import SimplexeSolveur, TableauSimplexe
+from src.models import ProblemePL, Solution
+from src.solver import SolveurPL
+from src.simplexe import SimplexeSolveur, TableauSimplexe
 
 
 # ============================================================

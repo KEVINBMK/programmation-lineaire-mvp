@@ -5,8 +5,12 @@ Point d'entrée principal du programme de programmation linéaire.
 Ce fichier fournit un menu interactif pour utiliser le solveur.
 """
 
-from models import ProblemePL
-from solver import SolveurPL, resoudre_rapide
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+
+from src.models import ProblemePL
+from src.solver import SolveurPL, resoudre_rapide
 from examples import (
     exemple_simple, 
     exemple_production, 

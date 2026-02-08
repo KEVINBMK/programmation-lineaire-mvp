@@ -5,8 +5,12 @@ Ce fichier contient des exemples de problèmes de programmation linéaire classi
 Ces exemples illustrent différents types de problèmes qu'on peut résoudre.
 """
 
-from models import ProblemePL
-from solver import resoudre_rapide
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+
+from src.models import ProblemePL
+from src.solver import resoudre_rapide
 
 
 def exemple_production():

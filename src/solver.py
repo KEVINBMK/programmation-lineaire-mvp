@@ -7,7 +7,7 @@ On utilise scipy.optimize.linprog qui implémente l'algorithme du simplexe.
 
 import numpy as np
 from scipy.optimize import linprog
-from models import ProblemePL, Solution
+from .models import ProblemePL, Solution
 
 
 class SolveurPL:
