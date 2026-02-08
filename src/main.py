@@ -3,6 +3,12 @@ Point d'entrée principal de l'application de programmation linéaire MVP.
 Coordonne les modules Model, View et Presenter.
 """
 
+import sys
+import os
+
+# Ajouter le répertoire parent au path pour les imports
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from src.model import LinearProgramModel
 from src.view import ConsoleView
 from src.presenter import LinearProgramPresenter
