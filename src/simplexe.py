@@ -418,5 +418,60 @@ def exemple_cours():
     print(solveur.afficher_solution())
 
 
+def resoudre_rapide(probleme, verbose: bool = True):
+    """
+    Fonction utilitaire pour résoudre rapidement un problème avec le Simplexe.
+    
+    Args:
+        probleme: Le problème à résoudre (ProblemePL)
+        verbose: Afficher les détails ou non
+    
+    Returns:
+        La solution du problème (Solution)
+    """
+    from .models import Solution
+    import numpy as np
+    
+    # Extraire les données du problème
+    c = probleme.c.tolist()
+    A = probleme.A_ub.tolist() if probleme.A_ub is not None else []
+    b = probleme.b_ub.tolist() if probleme.b_ub is not None else []
+    noms_vars = probleme.noms_variables
+    maximiser = (probleme.type_optimisation == 'max')
+    
+    if verbose:
+        print("\n🔍 Résolution en cours avec la méthode du Simplexe...")
+        print(f"   Variables : {len(c)}")
+        print(f"   Contraintes : {len(b)}")
+    
+    # Résoudre
+    solveur = SimplexeSolveur()
+    tableaux = solveur.resoudre(c, A, b, noms_vars, maximiser)
+    
+    # Créer l'objet Solution
+    solution = Solution()
+    solution.noms_variables = noms_vars
+    
+    if solveur.solution_trouvee:
+        valeurs_vars = [solveur.variables_solution.get(nom, 0.0) for nom in noms_vars]
+        solution.succes = True
+        solution.valeurs_variables = np.array(valeurs_vars)
+        solution.valeur_objectif = solveur.valeur_optimale
+        solution.message = "Solution optimale trouvée"
+        
+        if verbose:
+            print("✓ Solution trouvée avec succès!")
+    else:
+        solution.succes = False
+        solution.valeurs_variables = None
+        solution.valeur_objectif = None
+        solution.message = "Aucune solution trouvée" if not solveur.solution_infinie else "Solution infinie"
+        
+        if verbose:
+            print(f"✗ {solution.message}")
+    
+    return solution
+
+
 if __name__ == "__main__":
     exemple_cours()

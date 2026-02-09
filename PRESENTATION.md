@@ -25,8 +25,7 @@ Comment résoudre des problèmes d'optimisation linéaire et visualiser les éta
 Programmation_lineair/
 ├── src/                    # Code source principal
 │   ├── models.py           # Modélisation des problèmes
-│   ├── solver.py           # Solveur rapide (scipy)
-│   └── simplexe.py         # Algorithme du Simplexe
+│   └── simplexe.py         # Méthode du Simplexe
 ├── examples/               # Exemples et démos
 │   ├── examples.py         # Exemples CLI
 │   └── main.py             # Menu interactif
@@ -82,36 +81,11 @@ class Solution:
 
 **Points forts :**
 - Séparation problème/solution
-- Réutilisable pour différents solveurs
+- Réutilisable
 
 ---
 
-### 3.2 - solver.py (Solveur Rapide)
-
-**Rôle** : Résoudre rapidement un problème avec scipy
-
-**Classe principale :**
-
-#### `SolveurPL`
-```python
-def resoudre(self, probleme: ProblemePL) -> Solution:
-    # Utilise scipy.optimize.linprog
-    # Algorithme HiGHS (très performant)
-```
-
-**Points techniques :**
-1. **Conversion max → min** : Si maximisation, on multiplie par -1
-2. **Gestion des bornes** : Par défaut x ≥ 0
-3. **Méthode HiGHS** : Solveur moderne (2019), très rapide
-
-**Avantages :**
-- Résolution en <1ms pour petits problèmes
-- Robuste (gère les cas complexes)
-- Utilisé en industrie
-
----
-
-### 3.3 - simplexe.py (Cœur pédagogique)
+### 3.2 - simplexe.py (Cœur algorithme)
 
 **Rôle** : Implémenter l'algorithme du Simplexe avec affichage des tableaux (comme dans le cours)
 
@@ -365,9 +339,9 @@ Sous contraintes :
 |-------------|-------|---------------|
 | Python 3.12 | Langage | Standard en data science |
 | NumPy | Calculs matriciels | Performance |
-| SciPy | Résolution rapide | Bibliothèque de référence |
 | Streamlit | Interface web | Rapidité de développement |
 | Plotly | Visualisation | Graphiques interactifs |
+| Pandas | Affichage tableaux | Formatage élégant |
 | Git/GitHub | Versioning | Bonnes pratiques |
 | Streamlit Cloud | Déploiement | Gratuit et simple |
 
@@ -455,7 +429,8 @@ for tableau in tableaux:
 
 - Repo GitHub : https://github.com/KEVINBMK/programmation-lineaire-mvp
 - Application : https://kevinbmk-programmation-lineaire-mvp.streamlit.app
-- Documentation scipy : https://docs.scipy.org/doc/scipy/reference/optimize.html
+- Documentation Streamlit : https://docs.streamlit.io
+- Documentation NumPy : https://numpy.org/doc/
 
 ---
 

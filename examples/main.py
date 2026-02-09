@@ -10,7 +10,7 @@ import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 from src.models import ProblemePL
-from src.solver import SolveurPL, resoudre_rapide
+from src.simplexe import resoudre_rapide
 from examples import (
     exemple_simple, 
     exemple_production, 

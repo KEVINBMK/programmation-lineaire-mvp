@@ -519,14 +519,13 @@ def main():
         
         st.markdown("### À propos")
         st.markdown("""
-        Ce solveur utilise l'algorithme **HiGHS** 
-        pour résoudre des problèmes de 
-        programmation linéaire.
+        Ce solveur utilise la **Méthode du Simplexe** 
+        enseignée dans le cours de Recherche Opérationnelle.
         
         **Fonctionnalités :**
         - Maximisation / Minimisation
-        - Contraintes ≤ et =
-        - Variables bornées
+        - Contraintes ≤
+        - Affichage des tableaux étape par étape
         - Visualisation graphique
         """)
         

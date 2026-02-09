@@ -24,8 +24,7 @@ Programmation_lineair/
 ├── src/                    # Code source principal
 │   ├── __init__.py
 │   ├── models.py           # Classes ProblemePL et Solution
-│   ├── solver.py           # Solveur rapide (scipy)
-│   └── simplexe.py         # Algorithme du Simplexe avec tableaux
+│   └── simplexe.py         # Méthode du Simplexe avec tableaux
 ├── examples/               # Exemples et démos
 │   ├── examples.py         # Exemples en ligne de commande
 │   └── main.py             # Menu interactif console
