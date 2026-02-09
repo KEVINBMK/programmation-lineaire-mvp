@@ -11,7 +11,6 @@ import plotly.graph_objects as go
 import plotly.express as px
 import pandas as pd
 from src.models import ProblemePL, Solution
-from src.solver import SolveurPL
 from src.simplexe import SimplexeSolveur, TableauSimplexe
 
 
@@ -532,18 +531,14 @@ def main():
         """)
         
         st.markdown("---")
-        st.markdown("### Paramètres")
-        
-        methode = st.selectbox(
-            "Méthode de résolution :",
-            ['highs', 'highs-ds', 'highs-ipm', 'interior-point']
-        )
+        st.markdown("### Méthode de Résolution")
+        st.info("Méthode du Simplexe (Algorithme du cours)")
     
     # Contenu principal selon le mode
     if mode == "Exemples Prédéfinis":
-        afficher_mode_exemples(methode)
+        afficher_mode_exemples()
     else:
-        afficher_mode_personnalise(methode)
+        afficher_mode_personnalise()
     
     # Footer
     st.markdown("""
@@ -553,7 +548,7 @@ def main():
     """, unsafe_allow_html=True)
 
 
-def afficher_mode_exemples(methode: str):
+def afficher_mode_exemples():
     """Affiche le mode exemples prédéfinis."""
     
     st.markdown('<p class="section-title">Choisissez un Exemple</p>', unsafe_allow_html=True)
@@ -618,10 +613,10 @@ def afficher_mode_exemples(methode: str):
             probleme = get_exemple_transport()
         
         # Afficher et résoudre
-        afficher_probleme_et_solution(probleme, methode)
+        afficher_probleme_et_solution(probleme)
 
 
-def afficher_mode_personnalise(methode: str):
+def afficher_mode_personnalise():
     """Affiche le mode de création personnalisée."""
     
     st.markdown('<p class="section-title">Créer Votre Problème</p>', unsafe_allow_html=True)
@@ -683,10 +678,10 @@ def afficher_mode_personnalise(methode: str):
         probleme.definir_bornes([(0, None)] * nb_vars)
         
         # Afficher et résoudre
-        afficher_probleme_et_solution(probleme, methode)
+        afficher_probleme_et_solution(probleme)
 
 
-def afficher_probleme_et_solution(probleme: ProblemePL, methode: str):
+def afficher_probleme_et_solution(probleme: ProblemePL):
     """Affiche le problème et sa solution."""
     
     # Créer deux colonnes pour le problème et la solution
@@ -702,12 +697,33 @@ def afficher_probleme_et_solution(probleme: ProblemePL, methode: str):
         afficher_formulation_mathematique(probleme)
     
     with col2:
-        # Résoudre le problème
-        solveur = SolveurPL()
-        solveur.methode = methode
+        # Résoudre le problème avec la méthode du Simplexe
+        solveur = SimplexeSolveur()
         
-        with st.spinner("Résolution en cours..."):
-            solution = solveur.resoudre(probleme, verbose=False)
+        # Extraire les données du problème
+        c = probleme.c.tolist()
+        A = probleme.A_ub.tolist() if probleme.A_ub is not None else []
+        b = probleme.b_ub.tolist() if probleme.b_ub is not None else []
+        noms_vars = probleme.noms_variables
+        maximiser = (probleme.type_optimisation == 'max')
+        
+        with st.spinner("Résolution en cours avec la méthode du Simplexe..."):
+            tableaux = solveur.resoudre(c, A, b, noms_vars, maximiser)
+        
+        # Créer l'objet Solution à partir des résultats du Simplexe
+        solution = Solution()
+        if solveur.solution_trouvee:
+            valeurs_vars = [solveur.variables_solution.get(nom, 0.0) for nom in noms_vars]
+            solution.succes = True
+            solution.valeurs_variables = np.array(valeurs_vars)
+            solution.valeur_objectif = solveur.valeur_optimale
+            solution.noms_variables = noms_vars
+            solution.message = "Solution optimale trouvée"
+        else:
+            solution.succes = False
+            solution.valeurs_variables = None
+            solution.valeur_objectif = None
+            solution.message = "Aucune solution trouvée" if not solveur.solution_infinie else "Solution infinie"
         
         if solution.succes:
             # Affichage du résultat principal
@@ -761,7 +777,7 @@ def afficher_probleme_et_solution(probleme: ProblemePL, methode: str):
             st.metric("Contraintes =", nb_eq)
         
         with col4:
-            st.metric("Méthode", methode.upper())
+            st.metric("Méthode", "SIMPLEXE")
     
     # Afficher les tableaux du simplexe (uniquement pour contraintes <=)
     if probleme.A_ub is not None and (probleme.A_eq is None or len(probleme.b_eq) == 0):
